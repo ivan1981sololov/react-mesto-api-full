@@ -1,0 +1,19 @@
+.auth__form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 358px;
+    flex: 1 1 auto;
+}
+.auth__form input{
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 30px;
+    background-color: transparent;
+    padding: 5px 0px;
+    border: none;
+    border-bottom: solid 1px #fff;
+    color: #fff;
+    font-size: 14px;
+    box-shadow: none;
+}

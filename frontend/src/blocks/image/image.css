@@ -1,0 +1,9 @@
+.image{
+    transition: .2s;
+    opacity: 0;
+    position: relative;
+}
+
+.popup.popup_opened .image{
+    opacity: 1;
+}

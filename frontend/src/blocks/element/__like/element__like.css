@@ -1,0 +1,26 @@
+.element__like{
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    display: block;
+    width: 22px;
+    height: 19px;
+    transition: .2s;
+    background: url(../../../images/like-unactive.svg) no-repeat center center;
+    cursor: pointer;
+}
+
+.element__like:hover{
+    opacity: .5;
+}
+
+.like{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.element__like-quantity{
+    margin: 4px 0px 0px 0px;
+}

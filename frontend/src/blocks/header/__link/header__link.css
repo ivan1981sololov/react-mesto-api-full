@@ -1,0 +1,14 @@
+.header__link{
+    background-color: transparent;
+    border: none;
+    color: rgba(169, 169, 169, 1);
+    font-size: 18px;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: none;
+    transition-duration: 0.3s;
+}
+
+.header__link:hover{
+    color: #fff
+}

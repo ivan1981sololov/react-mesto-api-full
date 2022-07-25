@@ -1,0 +1,10 @@
+.image__title{
+    color: #fff;
+    position: absolute;
+    font-family: 'Main',Arial, sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    left: 0;
+    bottom: -30px;
+}

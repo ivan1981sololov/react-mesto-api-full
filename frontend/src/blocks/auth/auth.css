@@ -1,0 +1,15 @@
+.auth{
+    width: 100%;
+    padding-top: 60px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex:  0 1 480px;
+    align-items: center;
+}
+
+.auth > p{
+
+    color: #fff
+}
