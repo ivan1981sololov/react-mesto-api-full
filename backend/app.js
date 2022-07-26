@@ -16,7 +16,7 @@ const app = express();
 
 const { requestLogger, errorLogger } = require('./middlewares/logger'); 
 
-const allowedCors = [
+const allowedCors = [  
   'https://domain.students.cohort-39.nomoredomains.xyz',
   '*',
   'localhost:3000'
@@ -32,21 +32,21 @@ console.log(process.env.NODE_ENV);
 
 app.use(function(req, res, next) {
     const { origin } = req.headers;
-	if (allowedCors.includes(origin)) {
-	    res.header('Access-Control-Allow-Origin', origin);
-	}
-	const { method } = req;
+  if (allowedCors.includes(origin)) {
+      res.header('Access-Control-Allow-Origin', origin);
+  }
+  const { method } = req;
 
-	const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
-	const requestHeaders = req.headers['access-control-request-headers']; 
+  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
+  const requestHeaders = req.headers['access-control-request-headers']; 
 
-	if (method === 'OPTIONS') {
-	    res.header('Access-Control-Allow-Headers', requestHeaders);
-      res.header('Access-Control-Allow-Private-Network', true);
-	    return res.end();
-	} 
+  if (method === 'OPTIONS') {
+      res.header('Access-Control-Allow-Headers', requestHeaders);
+      res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
+      return res.end();
+  } 
 
-  	next();
+    next();
 }); 
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {

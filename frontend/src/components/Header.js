@@ -5,26 +5,26 @@ import { path } from './App';
 
 const Header = ({
     auth,
-    logOut
+    logOut,
 }) => {
- 
+
     const [inf, setInf] = useState(null)
     useEffect(() => {
-        if(auth !== null) {
-            authApi.getUserInf(auth).then(data => {
-                setInf(data.data)
+        if (auth !== null) {
+            authApi.getUserInf(auth).then((data) => {
+                console.log(data)
+                setInf(data)
             }).catch((e) => console.log(e))
         } else {
             setInf(null)
         }
     }, [auth])
 
-    
     const getFloatLink = () => {
-        if(window.location.pathname === path.REGISTER){
+        if (window.location.pathname === path.REGISTER) {
             return <Link className='header__link' to={path.LOGIN}>Войти</Link>
-        } 
-        if(window.location.pathname === path.LOGIN || !(window.location.pathname === path.REGISTER && window.location.pathname === path.MAIN)){
+        }
+        if (window.location.pathname === path.LOGIN || !(window.location.pathname === path.REGISTER && window.location.pathname === path.MAIN)) {
             return <Link className='header__link' to={path.REGISTER}>Регистрация</Link>
         }
     }

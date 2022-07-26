@@ -1,7 +1,7 @@
 import React, { useEffect,useContext, useState } from 'react';
 import CardsContext from '../context/CardsContext';
 
-import CurrentUserContext from '../context/CurrentUserContext';
+import { CurrentUserContext } from '../context/CurrentUserContext';
 import api from '../utils/Api';
 import Card from './Card';
 
@@ -15,7 +15,7 @@ const Main = ({
     onCardLike, 
     onCardDelete
 }) => {    
-    const currentUser = useContext(CurrentUserContext);
+    const {currentUser} = React.useContext(CurrentUserContext);
     
     const handleEditAvatarClick = () => {
         onEditAvatar(true)

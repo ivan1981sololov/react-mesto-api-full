@@ -24,12 +24,7 @@ router.patch('/me', celebrate({
 
 router.patch('/me/avatar', celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().custom((value, helper) => {
-      if (validator.isURL(value, { require_protocol: true })) {
-        return value.match(/https?:\/\/(www\.)?[-\w@:%\\+~#=]{1,256}\.[a-z0-9()]{1,6}\b([-\w()@:%\\+~#=//?&]*)/i);
-      }
-      return helper.message('Невалидный url');
-    }),
+    avatar: Joi.string(),
   }),
 }), updateAvatar);
 

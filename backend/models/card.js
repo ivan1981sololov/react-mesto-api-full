@@ -12,12 +12,12 @@ const cardSchema = new mongoose.Schema({
   link: {
     type: String,
     required: true,
-    validate: {
-      validator(val) {
-        return val.match(regex);
-      },
-      message: 'Введите валидный url',
-    },
+    // validate: {
+    //   validator(val) {
+    //     return val.match(regex);
+    //   },
+    //   message: 'Введите валидный url',
+    // },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

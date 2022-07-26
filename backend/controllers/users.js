@@ -5,6 +5,7 @@ const AuthorizedError = require('../errors/AuthorizedError');
 const CastError = require('../errors/CastError');
 const NotFound = require('../errors/NotFound');
 const ConflictError = require('../errors/ConflictError');
+const { use } = require('../routes/cards');
 
 const createUser = (req, res, next) => {
   const {
@@ -103,7 +104,7 @@ const updateAvatar = (req, res, next) => {
   const userId = req.user._id;
   const { avatar } = req.body;
 
-  User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: false })
     .orFail(() => {
       throw new NotFound('Пользователя с таким id не существует');
     })
@@ -147,7 +148,7 @@ const login = (req, res, next) => {
       // аутентификация успешна
       const token = jwt.sign(
         { _id: userId },
-        'super-strong-secret',
+        process.env.JWT_SECRET,
         { expiresIn: '7d' },
       );
 
@@ -160,7 +161,7 @@ const login = (req, res, next) => {
 
 const getUserMe = (req, res, next) => {
   const id = req.user._id;
-  User.find({ _id: id })
+  User.findById(id)
     .orFail(() => {
       throw new NotFound('Пользователя с таким id не существует');
     })
