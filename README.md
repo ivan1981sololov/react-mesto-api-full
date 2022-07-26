@@ -7,4 +7,4 @@
 https://domain.students.cohort-39.nomoredomains.xyz/
 
 # Бекенд - 51.250.73.92
-https://domain.students.cohort-39.nomoredomains.xyz
+https://mestobackend.students.nomoredomains.xyz/
