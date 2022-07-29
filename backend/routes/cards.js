@@ -3,39 +3,39 @@ const validator = require('validator');
 const { celebrate, Joi } = require('celebrate');
 const {
   getCards, createCards, deleteCard, likeCard, dislikeCard,
-} = require('../controllers/cards');
+} = require('../controllers/card');
 
-router.get('/', getCards);
+router.get('/cards', getCards);
 
-router.post('/', celebrate({
+router.post('/cards', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
-    link: Joi.string().custom((value, helper) => {
-      if (validator.isURL(value, { require_protocol: true })) {
-        return value;
+    link: Joi.string().custom((value) => {
+      if (!validator.isURL(value, { require_protocol: true })) {
+        throw new Error('Неправильный формат ссылки');
       }
-      return helper.message('link - невалидный url');
+      return value;
     }),
   }),
 }), createCards);
 
-router.delete('/:cardId', celebrate({
+router.put('/cards/:id/likes', celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().min(24).max(24).hex()
-      .required(),
-  }),
-}), deleteCard);
-
-router.put('/:cardId/likes', celebrate({
-  params: Joi.object().keys({
-    cardId: Joi.string().min(24).max(24).hex()
+    id: Joi.string().length(24).hex()
       .required(),
   }),
 }), likeCard);
 
-router.delete('/:cardId/likes', celebrate({
+router.delete('/cards/:id', celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().min(24).max(24).hex()
+    id: Joi.string().length(24).hex()
+      .required(),
+  }),
+}), deleteCard);
+
+router.delete('/cards/:id/likes', celebrate({
+  params: Joi.object().keys({
+    id: Joi.string().length(24).hex()
       .required(),
   }),
 }), dislikeCard);

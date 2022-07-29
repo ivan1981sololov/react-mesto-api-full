@@ -7,7 +7,6 @@ import Register from './Register';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { CurrentUserContext } from '../context/CurrentUserContext';
 import ProtectedRoute from './ProtectedRoute';
-import authApi from '../utils/AuthApi';
 import InfoTooltip from './InfoTooltip';
 import api from '../utils/Api';
 

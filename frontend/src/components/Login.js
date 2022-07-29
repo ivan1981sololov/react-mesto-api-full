@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import authApi from '../utils/AuthApi';
+import * as authApi from '../utils/AuthApi';
 import { useNavigate } from 'react-router-dom'; 
 import InfoTooltip from './InfoTooltip';
 
@@ -14,7 +14,7 @@ const Login = ({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        authApi.login(email, password)
+        authApi.authorize(password, email)
         .then(data => {
                 setAuth(data.token)
                 navigate('/')

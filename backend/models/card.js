@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-const regex = /https?:\/\/(www\.)?[-\w@:%\\+~#=]{1,256}\.[a-z0-9()]{1,6}\b([-\w()@:%\\+~#=//?&]*)/i;
+const { isURL } = require('validator');
+const user = require('./user');
 
 const cardSchema = new mongoose.Schema({
   name: {
@@ -12,27 +12,25 @@ const cardSchema = new mongoose.Schema({
   link: {
     type: String,
     required: true,
-    // validate: {
-    //   validator(val) {
-    //     return val.match(regex);
-    //   },
-    //   message: 'Введите валидный url',
-    // },
+    validate: {
+      validator: isURL,
+      message: (props) => `${props.value} is not a valid URL`,
+    },
   },
   owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    type: mongoose.ObjectId,
     required: true,
+    ref: user,
   },
   likes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    type: mongoose.ObjectId,
     default: [],
+    ref: user,
   }],
-  createdAt: {
+  createdAt: [{
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now(),
+  }],
 });
 
 module.exports = mongoose.model('card', cardSchema);

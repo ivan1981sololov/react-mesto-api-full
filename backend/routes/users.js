@@ -1,30 +1,40 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 const router = require('express').Router();
+
 const {
-  getUsers, getUserById, updateUser, updateAvatar, getUserMe,
-} = require('../controllers/users');
+  getUsers,
+  getUserById,
+  updateUser,
+  updateAvatar,
+  getUserMe,
+} = require('../controllers/user');
 
-router.get('/', getUsers);
-router.get('/me', getUserMe);
+router.get('/users', getUsers);
 
-router.get('/:userId', celebrate({
+router.get('/users/me', getUserMe);
+
+router.get('/users/:id', celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().min(24).max(24).hex()
-      .required(),
+    id: Joi.string().length(24).hex().required(),
   }),
 }), getUserById);
 
-router.patch('/me', celebrate({
+router.patch('/users/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
     about: Joi.string().min(2).max(30).required(),
   }),
 }), updateUser);
 
-router.patch('/me/avatar', celebrate({
+router.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string(),
+    avatar: Joi.string().custom((value) => {
+      if (!validator.isURL(value, { require_protocol: true })) {
+        throw new Error('Неправильный формат ссылки');
+      }
+      return value;
+    }),
   }),
 }), updateAvatar);
 

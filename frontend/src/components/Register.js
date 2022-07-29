@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import authApi from '../utils/AuthApi';
+import * as authApi from '../utils/AuthApi';
 import { useNavigate } from 'react-router-dom'; 
 import { path } from './App';
 

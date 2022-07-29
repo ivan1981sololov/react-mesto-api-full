@@ -10,7 +10,6 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from '../utils/Api';
 import { CurrentUserContext } from '../context/CurrentUserContext';
-import CardsContext from '../context/CardsContext';
 import AddPlacePopup from './AddPlacePopup';
 
 
@@ -28,9 +27,12 @@ function Content({
     const { currentUser, setCurrentUser } = React.useContext(CurrentUserContext);
     const [cards, setCards] = React.useState([])
 
+    console.log(currentUser._id)
+
     const handleCardLike = (card) => {
+        console.log(card.likes)
         // Снова проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some(i => i === currentUser._id);
 
         // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, !isLiked, currentUser).then((newCard) => {
@@ -68,7 +70,7 @@ function Content({
     }
 
     const handleUpdateAvatar = (obj) => {
-        api.setAvatar(obj).then((newUser) => {
+        api.setUserAvatar(obj).then((newUser) => {
             setCurrentUser(newUser)
         }).then(
             closeAllPopups()
@@ -76,7 +78,7 @@ function Content({
     }
 
     const handleAddPlace = (body) => {
-        api.addCard(body).then((newCard) => {
+        api.createNewCard(body).then((newCard) => {
             setCards([newCard, ...cards]);
         }).then(
             closeAllPopups()
@@ -87,8 +89,7 @@ function Content({
         if (auth) {
             api.getInitialCards()
                 .then((cards) => {
-                    console.log(cards)
-                    setCards(cards)
+                    setCards(cards.reverse())
                 }).catch((e) => console.log(e))
         }
     }, [])

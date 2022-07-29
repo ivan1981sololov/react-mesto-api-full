@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import authApi from '../utils/AuthApi';
+import api from '../utils/Api';
 import { path } from './App';
 
 const Header = ({
     auth,
     logOut,
 }) => {
-
+    
     const [inf, setInf] = useState(null)
     useEffect(() => {
         if (auth !== null) {
-            authApi.getUserInf(auth).then((data) => {
-                console.log(data)
+            api.getUserInfo(auth).then((data) => {
                 setInf(data)
             }).catch((e) => console.log(e))
         } else {

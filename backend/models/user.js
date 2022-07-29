@@ -1,38 +1,36 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+const bcrypt = require('bcrypt');
+const { isEmail, isURL } = require('validator');
+const Unauthorized = require('../errors/Unauthorized');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: 'Жак-Ив Кусто',
     minlength: 2,
     maxlength: 30,
+    default: 'Жак-Ив Кусто',
   },
   about: {
     type: String,
-    default: 'Исследователь',
     minlength: 2,
     maxlength: 30,
+    default: 'Исследователь',
   },
   avatar: {
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
-    // validate: {
-    //   validator(val) {
-    //     return val.match(/https?:\/\/(www\.)?[-\w@:%\\+~#=]{1,256}\.[a-z0-9()]{1,6}\b([-\w()@:%\\+~#=//?&]*)/i);
-    //   },
-    //   message: 'Введите валидный url',
-    // },
+    validate: {
+      validator: isURL,
+      message: (props) => `${props.value} is not a valid URL`,
+    },
   },
   email: {
     type: String,
     required: true,
     unique: true,
     validate: {
-      validator(val) {
-        return validator.isEmail(val);
-      },
-      message: 'Введите валидный email',
+      validator: isEmail,
+      message: (props) => `${props.value} is not a valid email`,
     },
   },
   password: {
@@ -42,5 +40,22 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// создаём модель и экспортируем её
+userSchema.statics.findUserByCredentials = function (email, password) {
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
+      if (!user) {
+        throw new Unauthorized('Неправильные почта или пароль');
+      }
+
+      return bcrypt.compare(password, user.password)
+        .then((matched) => {
+          if (!matched) {
+            throw new Unauthorized('Неправильные почта или пароль');
+          }
+
+          return user;
+        });
+    });
+};
+
 module.exports = mongoose.model('user', userSchema);
