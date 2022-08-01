@@ -10,7 +10,7 @@ router.get('/cards', getCards);
 router.post('/cards', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
-    link: Joi.string().custom((value) => {
+    link: Joi.string().required().custom((value) => {
       if (!validator.isURL(value, { require_protocol: true })) {
         throw new Error('Неправильный формат ссылки');
       }

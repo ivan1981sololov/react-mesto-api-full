@@ -29,7 +29,7 @@ router.patch('/users/me', celebrate({
 
 router.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().custom((value) => {
+    avatar: Joi.string().required().custom((value) => {
       if (!validator.isURL(value, { require_protocol: true })) {
         throw new Error('Неправильный формат ссылки');
       }

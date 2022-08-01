@@ -2,13 +2,17 @@
 logs
 *.log
 npm-debug.log*
-# Environment Vars
-.env
+
 # Dependency directory
 node_modules
+
 # Optional npm cache directory
 .npm
+
 # Optional REPL history
 .DS_Store
 .idea
-.vscode
+.vscode 
+
+# environment
+.env

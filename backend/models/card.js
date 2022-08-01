@@ -27,10 +27,10 @@ const cardSchema = new mongoose.Schema({
     default: [],
     ref: user,
   }],
-  createdAt: [{
+  createdAt: {
     type: Date,
     default: Date.now(),
-  }],
+  },
 });
 
 module.exports = mongoose.model('card', cardSchema);

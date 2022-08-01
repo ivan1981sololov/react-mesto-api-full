@@ -40,7 +40,6 @@ const getUserMe = (req, res, next) => {
         next(err);
       }
     })
-    .catch(next);
 };
 
 const updateUser = (req, res, next) => {
@@ -91,14 +90,16 @@ const createUser = (req, res, next) => {
     }))
     .then((user) => res.status(200).send(user))
     .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
-        throw new ValidationError('Данные не прошли валидацию');
+      if (err.name === 'ValidationError') {
+        return next(ValidationError('Данные не прошли валидацию'));
       }
       if (err.name === 'MongoError' || err.code === '11000') {
-        throw new ErrorConflict('Такой емейл уже зарегистрирован');
+        return next(ErrorConflict('Такой емейл уже зарегистрирован'));
+      }
+      else {
+        next(err);
       }
     })
-    .catch(next);
 };
 
 const login = (req, res, next) => {
