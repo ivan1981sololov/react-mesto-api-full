@@ -17,12 +17,6 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-if (process.env.NODE_ENV !== 'production') {
-  process.env.NODE_ENV = 'development';
-}
-
-console.log(process.env.NODE_ENV);
-
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(cookieParser());

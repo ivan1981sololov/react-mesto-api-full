@@ -39,7 +39,7 @@ const getUserMe = (req, res, next) => {
       } else {
         next(err);
       }
-    })
+    });
 };
 
 const updateUser = (req, res, next) => {
@@ -96,10 +96,8 @@ const createUser = (req, res, next) => {
       if (err.name === 'MongoError' || err.code === '11000') {
         return next(ErrorConflict('Такой емейл уже зарегистрирован'));
       }
-      else {
-        next(err);
-      }
-    })
+      return next(err);
+    });
 };
 
 const login = (req, res, next) => {
@@ -107,7 +105,7 @@ const login = (req, res, next) => {
 
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
+      const token = jwt.sign({ _id: user._id }, `${NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret'}`, {
         expiresIn: '7d',
       });
       res

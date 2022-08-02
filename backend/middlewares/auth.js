@@ -8,7 +8,6 @@ const auth = (req, res, next) => {
   if (!token) {
     return next(new Unauthorized('Необходима авторизация'));
   }
-  
   let payload;
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
@@ -16,7 +15,7 @@ const auth = (req, res, next) => {
     return next(new Unauthorized('Необходима авторизация'));
   }
   req.user = payload;
-  next();
+  return next();
 };
 
 module.exports = auth;
